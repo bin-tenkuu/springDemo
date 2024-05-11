@@ -1,0 +1,88 @@
+server:
+  error:
+    path: /error
+    #    include-exception: true
+    #    include-stacktrace: always
+    include-message: always
+#    include-binding-errors: always
+
+spring:
+  application:
+    name: spring-boot-demo
+  messages:
+    encoding: UTF-8
+  main:
+    banner-mode: off
+  output:
+    ansi:
+      enabled: always
+  # 前端请求配置
+  servlet:
+    # 文件请求配置
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+  # json序列化配置
+  jackson:
+    default-property-inclusion: always
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write-bigdecimal-as-plain: true
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+      adjust-dates-to-context-time-zone: false
+  datasource:
+    type: org.sqlite.SQLiteDataSource
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:db.sqlite3
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+  data:
+    web:
+      pageable:
+        default-page-size: 5
+        one-indexed-parameters: true
+
+logging:
+  file:
+    name: ./logs/${spring.application.name}/log.log
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) [%blue(%thread)] - %cyan(%logger{50}) : %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] - %logger{50} - %msg%n'
+  logback:
+    rollingpolicy:
+      max-history: 30
+      clean-history-on-start: true
+      max-file-size: 1GB
+  level:
+    root: info
+    org.springframework: warn
+
+# 接口文档配置
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+  group-configs:
+    - group: default
+      paths-to-match: /**
+
+# 接口文档配置
+knife4j:
+  enable: true
+  setting:
+    enable-after-script: false
+    enable-dynamic-parameter: true
+    enable-footer: true
+    enable-footer-custom: true
+    footer-custom-content: 内部开发文档
+    enable-version: true
+    enable-response-code: false
